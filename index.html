@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Crust Bakery | Artisanal Excellence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- Modern Sophisticated Palette --- */
+        :root {
+            --primary: #c5a059;    /* Muted Gold */
+            --primary-hover: #b38f4d;
+            --dark: #1a1a1a;       /* Rich Charcoal */
+            --light-bg: #fdfbf7;   /* Warm Cream */
+            --white: #ffffff;
+            --text-muted: #666666;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* --- Global Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 45px;
+            background-color: var(--dark);
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            background-color: rgba(253, 251, 247, 0.95);
+            height: 90px;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1517433367423-c7e5b0f35086?ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-content h1 {
+            font-size: 7rem;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        /* --- Section Styling --- */
+        section {
+            padding: 120px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title span {
+            display: block;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .section-title h2 {
+            font-size: 4rem;
+            letter-spacing: -1px;
+        }
+
+        /* --- Features --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .feature-card {
+            padding: 40px;
+            border: 1px solid rgba(0,0,0,0.05);
+            background: var(--white);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 30px 60px rgba(0,0,0,0.05);
+            border-color: var(--primary);
+        }
+
+        .feature-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- Menu Section --- */
+        #menu {
+            background-color: var(--white);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/5;
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s var(--transition);
+        }
+
+        .menu-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .menu-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--white);
+            transform: translateY(20px);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .menu-item:hover .menu-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* --- Contact --- */
+        #contact {
+            background-color: var(--dark);
+            color: var(--white);
+        }
+
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .contact-details h3 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--primary);
+        }
+
+        .contact-details p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--white);
+            font-family: inherit;
+        }
+
+        .contact-form .btn {
+            background-color: var(--primary);
+            width: 100%;
+        }
+
+        footer {
+            padding: 50px 0;
+            text-align: center;
+            background: #111;
+            color: #444;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            .hero-content h1 { font-size: 4.5rem; }
+            .section-title h2 { font-size: 3rem; }
+            .contact-wrapper { grid-template-columns: 1fr; gap: 60px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero-content h1 { font-size: 3.5rem; }
+            section { padding: 80px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">GOLDEN<span>CRUST</span></a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#features">Philosophy</a></li>
+                <li><a href="#menu">The Collection</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-btn">☰</div>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="hero-content">
+            <p>ESTABLISHED 1984</p>
+            <h1>Art of the Grain.</h1>
+            <a href="#menu" class="btn">Discover the Collection</a>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="container">
+            <div class="section-title">
+                <span>Our Values</span>
+                <h2>Timeless Tradition</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="icon">🌾</span>
+                    <h3>Ancient Grains</h3>
+                    <p>We source heirloom wheat varieties that haven't changed for centuries, providing deeper flavor and better nutrition.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">⏳</span>
+                    <h3>Slow Leavened</h3>
+                    <p>Time is our secret ingredient. Every loaf undergoes a 72-hour natural fermentation process for optimal texture.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">🏺</span>
+                    <h3>Artisan Crafted</h3>
+                    <p>No machines, no shortcuts. Every pastry and loaf is shaped by the hands of our master bakers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu">
+        <div class="container">
+            <div class="section-title">
+                <span>Daily Selection</span>
+                <h2>The Signature Bakes</h2>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sourdough">
+                    <div class="menu-info">
+                        <h3>Reserve Sourdough</h3>
+                        <p>Our 40-year old starter creates a crust that is dark, shattered, and unforgettable.</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1530610476181-d83430b64dcd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Croissant">
+                    <div class="menu-info">
+                        <h3>Le Beurre Croissant</h3>
+                        <p>Hand-laminated with AOP French butter for unmatched honeycomb layers.</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Eclairs">
+                    <div class="menu-info">
+                        <h3>Dark Cocoa Éclair</h3>
+                        <p>Choux pastry filled with 70% Valrhona ganache and gold leaf finish.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-details">
+                    <h3>Join us for <br>morning coffee.</h3>
+                    <p>📍 84 Artisan Way, Heritage Quarter</p>
+                    <p>📞 +1 (234) 567-890</p>
+                    <p>✉️ concierge@goldencrust.com</p>
+                    <br><br>
+                    <p><strong>Baking Hours</strong></p>
+                    <p>Tuesday — Saturday: 07:00 — 16:00</p>
+                    <p>Sunday: 08:00 — 14:00</p>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <input type="text" placeholder="NAME" required>
+                        <input type="email" placeholder="EMAIL ADDRESS" required>
+                        <textarea rows="5" placeholder="SPECIAL REQUESTS OR INQUIRIES"></textarea>
+                        <button type="submit" class="btn">Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Golden Crust Artisans. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll adjustment for header height
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                window.scrollTo({
+                    top: target.offsetTop - 90,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Simple form interaction
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.btn');
+            btn.innerText = 'SENT SUCCESSFULLY';
+            btn.style.backgroundColor = '#4CAF50';
+            this.reset();
+            setTimeout(() => {
+                btn.innerText = 'SEND INQUIRY';
+                btn.style.backgroundColor = 'var(--primary)';
+            }, 3000);
+        });
+
+        // Mobile Menu Toggle
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuBtn.addEventListener('click', () => {
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '90px';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.backgroundColor = 'var(--light-bg)';
+                navLinks.style.padding = '40px';
+                navLinks.style.borderBottom = '1px solid #ddd';
+            }
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Crust | Freshly Baked Daily</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- Color Palette: Deep Slate, Warm Cream, and Burnt Orange --- */
+        :root {
+            --primary: #2c3e50;    /* Deep Slate */
+            --accent: #d35400;     /* Burnt Orange */
+            --bg: #fcf8f5;         /* Warm Cream */
+            --white: #ffffff;
+            --text: #2c3e50;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(252, 248, 245, 0.95);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Hero --- */
+        #hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-content h1 {
+            font-size: 6.5rem;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: var(--accent);
+            color: var(--white);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* --- Sections --- */
+        section {
+            padding: 120px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title h2 {
+            font-size: 3.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 25%;
+        }
+
+        /* --- Grid Layouts --- */
+        .features-grid, .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .feature-card i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            position: relative;
+            overflow: hidden;
+            height: 400px;
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .menu-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .menu-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(44, 62, 80, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            opacity: 0;
+            transition: var(--transition);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .menu-item:hover .menu-overlay {
+            opacity: 1;
+        }
+
+        /* --- Contact --- */
+        #contact {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-family: inherit;
+        }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            background: #1a252f;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            .hero-content h1 { font-size: 4rem; }
+            .contact-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">Artisan Crust</a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#contact">Visit</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="hero-content">
+            <p>Masterfully Handcrafted</p>
+            <h1>The Daily Loaf.</h1>
+            <a href="#menu" class="btn">Explore Menu</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Philosophy</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i>🌾</i>
+                    <h3>Pure Ingredients</h3>
+                    <p>Only flour, water, salt, and time. No additives, no shortcuts.</p>
+                </div>
+                <div class="feature-card">
+                    <i>🔥</i>
+                    <h3>Stone Hearth</h3>
+                    <p>Baked on hot stone for that authentic thick, crunchy crust.</p>
+                </div>
+                <div class="feature-card">
+                    <i>⏲️</i>
+                    <h3>Slow Ferment</h3>
+                    <p>Natural leavening for 48 hours for better flavor and digestion.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu">
+        <div class="container">
+            <div class="section-title">
+                <h2>Fresh Today</h2>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Bread">
+                    <div class="menu-overlay">
+                        <h3>Heritage Sourdough</h3>
+                        <p>Our 50-year-old starter creates a loaf like no other.</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Croissant">
+                    <div class="menu-overlay">
+                        <h3>Classic Croissant</h3>
+                        <p>Laminated with premium butter for 24 flakey layers.</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Rye">
+                    <div class="menu-overlay">
+                        <h3>Dark Seeded Rye</h3>
+                        <p>Hearty, dense, and packed with toasted sunflower seeds.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div>
+                    <h2 style="font-size: 3rem; margin-bottom: 20px;">Come Say Hello</h2>
+                    <p style="margin-bottom: 20px;">We start baking at 4:00 AM every single day. Come grab a warm loaf and a coffee.</p>
+                    <p>📍 452 Baker's Street, Flour District</p>
+                    <p>📞 (555) 012-3456</p>
+                    <br>
+                    <p><strong>Open Daily: 7 AM - 4 PM</strong></p>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <input type="text" placeholder="Name" required>
+                        <input type="email" placeholder="Email" required>
+                        <textarea rows="5" placeholder="Special orders or questions?"></textarea>
+                        <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Artisan Crust Bakery. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thanks! We will get back to you shortly.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
