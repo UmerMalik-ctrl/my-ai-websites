@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEURAL LINK | Elite Tactical Gear</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;500;700&display=swap');
+
+        :root {
+            --bg: #020205;
+            --neon-blue: #00f3ff;
+            --neon-purple: #bc00ff;
+            --neon-green: #39ff14;
+            --text: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        /* Perspective Container for 3D Scroll */
+        #main-canvas {
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        /* Scanline Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Grid Floor */
+        .grid-floor {
+            position: fixed;
+            bottom: -200px;
+            left: -50%;
+            width: 200%;
+            height: 800px;
+            background-image: 
+                linear-gradient(var(--neon-blue) 1px, transparent 1px),
+                linear-gradient(90deg, var(--neon-blue) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: rotateX(75deg);
+            opacity: 0.15;
+            z-index: -1;
+            mask-image: linear-gradient(to bottom, transparent, black);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass);
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 8rem);
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0,243,255,0.3));
+        }
+
+        .hero-3d-box {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            margin: 50px 0;
+        }
+
+        .box-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--neon-blue);
+            background: rgba(0, 243, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            box-shadow: inset 0 0 30px var(--neon-blue);
+        }
+
+        .front  { transform: translateZ(150px); }
+        .back   { transform: rotateY(180deg) translateZ(150px); }
+        .right  { transform: rotateY(90deg) translateZ(150px); }
+        .left   { transform: rotateY(-90deg) translateZ(150px); }
+        .top    { transform: rotateX(90deg) translateZ(150px); }
+        .bottom { transform: rotateX(-90deg) translateZ(150px); }
+
+        .section-title {
+            text-align: center;
+            margin: 100px 0 50px;
+            font-size: 2.5rem;
+            color: var(--neon-purple);
+            text-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            padding: 100px 5%;
+        }
+
+        .card-wrapper {
+            perspective: 1000px;
+        }
+
+        .product-card {
+            width: 350px;
+            height: 450px;
+            background: var(--glass);
+            border: 1px solid var(--glass);
+            border-radius: 15px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+        }
+
+        .product-card .img-3d {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -20%) translateZ(80px);
+            font-size: 8rem;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.4));
+        }
+
+        .product-card h3 {
+            transform: translateZ(50px);
+            margin-bottom: 10px;
+        }
+
+        .product-card p {
+            transform: translateZ(30px);
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: transparent;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-family: 'Orbitron';
+            cursor: pointer;
+            transition: 0.3s;
+            transform: translateZ(40px);
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: var(--neon-blue);
+            color: var(--bg);
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 50px 10%;
+        }
+
+        .spec-box {
+            background: rgba(188, 0, 255, 0.05);
+            border-left: 4px solid var(--neon-purple);
+            padding: 30px;
+            transform: translateZ(0);
+            transition: 0.6s;
+        }
+
+        .spec-box.reveal {
+            transform: translateZ(100px);
+            background: rgba(188, 0, 255, 0.15);
+        }
+
+        footer {
+            padding: 100px 50px;
+            text-align: center;
+            border-top: 1px solid var(--glass);
+            margin-top: 100px;
+        }
+
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Parallax Background Elements */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -2;
+            opacity: 0.2;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .hero-3d-box { width: 150px; height: 150px; }
+            .front, .back, .left, .right, .top, .bottom { transform: translateZ(75px); }
+            .product-card { width: 280px; height: 380px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="orb" style="width: 400px; height: 400px; background: var(--neon-blue); top: 10%; left: -10%;"></div>
+    <div class="orb" style="width: 300px; height: 300px; background: var(--neon-purple); bottom: 10%; right: -5%;"></div>
+    <div class="grid-floor"></div>
+
+    <nav>
+        <div class="logo">NEURAL.LNK</div>
+        <div style="display: flex; gap: 30px;">
+            <a href="#" style="color: white; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px;">ARSENAL</a>
+            <a href="#" style="color: white; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px;">INTEL</a>
+            <a href="#" style="color: white; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px;">SYNC</a>
+        </div>
+    </nav>
+
+    <div id="main-canvas">
+        <section class="hero">
+            <h1 class="glitch-text">UPGRADE<br>REALITY</h1>
+            
+            <div class="hero-3d-box" id="heroBox">
+                <div class="box-face front">⚡</div>
+                <div class="box-face back">💠</div>
+                <div class="box-face right">🔋</div>
+                <div class="box-face left">🛰️</div>
+                <div class="box-face top">💀</div>
+                <div class="box-face bottom">🛡️</div>
+            </div>
+
+            <p style="letter-spacing: 8px; color: var(--neon-blue); font-weight: 300;">LOW LATENCY CYBERNETICS</p>
+        </section>
+
+        <h2 class="section-title">THE ARSENAL</h2>
+
+        <section class="products">
+            <div class="card-wrapper">
+                <div class="product-card" id="card1">
+                    <div class="img-3d">🎧</div>
+                    <h3>VOX-9 PRO</h3>
+                    <p>Neural-sync audio with 0.01ms lag. Hear through walls, literally.</p>
+                    <button class="btn">ACQUIRE</button>
+                </div>
+            </div>
+
+            <div class="card-wrapper">
+                <div class="product-card" id="card2">
+                    <div class="img-3d">🖱️</div>
+                    <h3>GHOST GLIDE</h3>
+                    <p>Frictionless magnetic levitation sensor. 50,000 DPI tracking.</p>
+                    <button class="btn">ACQUIRE</button>
+                </div>
+            </div>
+
+            <div class="card-wrapper">
+                <div class="product-card" id="card3">
+                    <div class="img-3d">⌨️</div>
+                    <h3>STRIKE 01</h3>
+                    <p>Photon-actuated switches. Faster than human thought.</p>
+                    <button class="btn">ACQUIRE</button>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="section-title">SYSTEM SPECS</h2>
+
+        <section class="specs-grid">
+            <div class="spec-box" id="spec1">
+                <h4 style="color: var(--neon-purple); margin-bottom: 10px;">HAPTIC ENGINE</h4>
+                <p>Localized vibration motors providing 1:1 tactile feedback for every in-game action.</p>
+            </div>
+            <div class="spec-box" id="spec2">
+                <h4 style="color: var(--neon-purple); margin-bottom: 10px;">AI OVERCLOCK</h4>
+                <p>Proprietary chips that predict your next move and pre-render input frames.</p>
+            </div>
+            <div class="spec-box" id="spec3">
+                <h4 style="color: var(--neon-purple); margin-bottom: 10px;">BIO-RECOGNITION</h4>
+                <p>Heart-rate and sweat sensors adjust device sensitivity based on your stress levels.</p>
+            </div>
+        </section>
+
+        <footer>
+            <div class="logo" style="margin-bottom: 20px;">NEURAL.LNK</div>
+            <p style="opacity: 0.5; max-width: 500px; margin: 0 auto;">ESTABLISHED 2099. ALL HARDWARE IS BIOLOGICALLY ENCRYPTED. NO REFUNDS IN THE METAVERSE.</p>
+            <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px;">
+                <span style="color: var(--neon-green)">● SYSTEM ONLINE</span>
+                <span style="color: var(--neon-blue)">● HK_SERVER_4</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const heroBox = document.getElementById('heroBox');
+        const cards = document.querySelectorAll('.product-card');
+        const specBoxes = document.querySelectorAll('.spec-box');
+        const floor = document.querySelector('.grid-floor');
+
+        // Scroll Logic
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            
+            // Rotate Hero Box
+            heroBox.style.transform = `rotateX(${scrolled * 0.2}deg) rotateY(${scrolled * 0.5}deg)`;
+            
+            // Floor movement
+            floor.style.backgroundPosition = `0px ${scrolled * 0.8}px`;
+
+            // Perspective tilt on scroll for cards
+            cards.forEach((card, index) => {
+                const rect = card.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                
+                if (rect.top < viewportHeight && rect.bottom > 0) {
+                    const tilt = (rect.top - viewportHeight / 2) * 0.05;
+                    card.style.transform = `rotateX(${tilt}deg) rotateY(${index % 2 === 0 ? 5 : -5}deg)`;
+                }
+            });
+
+            // Reveal Specs
+            specBoxes.forEach(box => {
+                const rect = box.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    box.classList.add('reveal');
+                } else {
+                    box.classList.remove('reveal');
+                }
+            });
+        });
+
+        // Mouse Interactivity for cards
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xPct = (x / rect.width - 0.5) * 30;
+                const yPct = (y / rect.height - 0.5) * -30;
+                
+                card.style.transform = `rotateY(${xPct}deg) rotateX(${yPct}deg) scale(1.05)`;
+                card.style.transition = 'none';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `rotateY(0) rotateX(0) scale(1)`;
+                card.style.transition = 'transform 0.5s ease';
+            });
+        });
+
+        // Initial entry animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 1s ease';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
