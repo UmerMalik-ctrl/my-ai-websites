@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEURAL LINK | Elite Tactical Gear</title>
+    <title>Goku Playzz | Elite Cyber Gear</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Orbitron:wght@500;900&display=swap');
 
         :root {
-            --bg: #020205;
-            --neon-blue: #00f3ff;
-            --neon-purple: #bc00ff;
-            --neon-green: #39ff14;
-            --text: #ffffff;
-            --glass: rgba(255, 255, 255, 0.05);
+            --bg-color: #020205;
+            --electric-blue: #00d4ff;
+            --magenta: #ff00ff;
+            --purple: #9d00ff;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-main: #ffffff;
+            --text-dim: #b0b0b0;
         }
 
         * {
@@ -23,405 +24,350 @@
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            perspective: 1000px;
+            line-height: 1.6;
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, .logo {
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 2px;
         }
 
-        /* Perspective Container for 3D Scroll */
-        #main-canvas {
-            position: relative;
-            transform-style: preserve-3d;
+        .gradient-text {
+            background: linear-gradient(90deg, var(--electric-blue), var(--magenta), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
         }
 
-        /* Scanline Overlay */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 4px, 3px 100%;
-            z-index: 100;
-            pointer-events: none;
-        }
-
-        /* Grid Floor */
-        .grid-floor {
-            position: fixed;
-            bottom: -200px;
-            left: -50%;
-            width: 200%;
-            height: 800px;
-            background-image: 
-                linear-gradient(var(--neon-blue) 1px, transparent 1px),
-                linear-gradient(90deg, var(--neon-blue) 1px, transparent 1px);
-            background-size: 60px 60px;
-            transform: rotateX(75deg);
-            opacity: 0.15;
-            z-index: -1;
-            mask-image: linear-gradient(to bottom, transparent, black);
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass);
-        }
-
-        .logo {
-            font-weight: 900;
-            font-size: 1.5rem;
-            color: var(--neon-blue);
-            text-shadow: 0 0 10px var(--neon-blue);
-        }
-
-        .hero {
+        /* Hero Section */
+        #hero {
             height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 20px;
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 10vw, 8rem);
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(0,243,255,0.3));
-        }
-
-        .hero-3d-box {
+            padding: 0 20px;
             position: relative;
-            width: 300px;
-            height: 300px;
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-            margin: 50px 0;
+            overflow: hidden;
         }
 
-        .box-face {
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            color: var(--electric-blue);
+            margin-bottom: 40px;
+            z-index: 10;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .hero-image-container {
             position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: 100%;
             height: 100%;
-            border: 2px solid var(--neon-blue);
-            background: rgba(0, 243, 255, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            box-shadow: inset 0 0 30px var(--neon-blue);
+            z-index: -1;
+            opacity: 0.4;
         }
 
-        .front  { transform: translateZ(150px); }
-        .back   { transform: rotateY(180deg) translateZ(150px); }
-        .right  { transform: rotateY(90deg) translateZ(150px); }
-        .left   { transform: rotateY(-90deg) translateZ(150px); }
-        .top    { transform: rotateX(90deg) translateZ(150px); }
-        .bottom { transform: rotateX(-90deg) translateZ(150px); }
-
-        .section-title {
-            text-align: center;
-            margin: 100px 0 50px;
-            font-size: 2.5rem;
-            color: var(--neon-purple);
-            text-shadow: 0 0 15px var(--neon-purple);
+        .hero-image {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            filter: saturate(1.5) contrast(1.2);
+            will-change: transform;
         }
 
-        .products {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 50px;
+        /* Products Section */
+        #products {
             padding: 100px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .card-wrapper {
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card-perspective {
             perspective: 1000px;
         }
 
         .product-card {
-            width: 350px;
-            height: 450px;
-            background: var(--glass);
-            border: 1px solid var(--glass);
-            border-radius: 15px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
-            padding: 40px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease-out;
+            opacity: 0;
+            transform: translateY(50px);
+            backdrop-filter: blur(10px);
+            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            cursor: pointer;
+            justify-content: space-between;
         }
 
-        .product-card:hover {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+        .product-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        .product-card .img-3d {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%, -20%) translateZ(80px);
-            font-size: 8rem;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.4));
+        .product-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            pointer-events: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .product-card h3 {
-            transform: translateZ(50px);
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--electric-blue);
         }
 
         .product-card p {
-            transform: translateZ(30px);
-            color: #aaa;
-            line-height: 1.6;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
         }
 
-        .btn {
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: transparent;
-            border: 1px solid var(--neon-blue);
-            color: var(--neon-blue);
-            font-family: 'Orbitron';
-            cursor: pointer;
-            transition: 0.3s;
-            transform: translateZ(40px);
+        .btn-details {
+            display: inline-block;
+            padding: 12px 30px;
+            border: 2px solid var(--magenta);
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
             font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            background: transparent;
+            cursor: pointer;
         }
 
-        .btn:hover {
-            background: var(--neon-blue);
-            color: var(--bg);
-            box-shadow: 0 0 20px var(--neon-blue);
+        .btn-details:hover {
+            background: var(--magenta);
+            box-shadow: 0 0 20px var(--magenta);
+        }
+
+        /* Specs Section */
+        #specs {
+            padding: 100px 5%;
+            background: linear-gradient(to bottom, transparent, rgba(157, 0, 255, 0.05), transparent);
         }
 
         .specs-grid {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 50px 10%;
+            gap: 40px;
         }
 
-        .spec-box {
-            background: rgba(188, 0, 255, 0.05);
-            border-left: 4px solid var(--neon-purple);
-            padding: 30px;
-            transform: translateZ(0);
-            transition: 0.6s;
-        }
-
-        .spec-box.reveal {
-            transform: translateZ(100px);
-            background: rgba(188, 0, 255, 0.15);
-        }
-
-        footer {
-            padding: 100px 50px;
+        .spec-col {
             text-align: center;
-            border-top: 1px solid var(--glass);
-            margin-top: 100px;
+            padding: 20px;
         }
 
-        .glitch-text {
-            position: relative;
-            display: inline-block;
+        .spec-col h4 {
+            color: var(--electric-blue);
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
         }
 
-        /* Parallax Background Elements */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -2;
-            opacity: 0.2;
+        .spec-col p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-established {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--magenta);
+            font-weight: bold;
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            .hero-3d-box { width: 150px; height: 150px; }
-            .front, .back, .left, .right, .top, .bottom { transform: translateZ(75px); }
-            .product-card { width: 280px; height: 380px; }
+            .hero-title { font-size: 3.5rem; }
+            .product-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="orb" style="width: 400px; height: 400px; background: var(--neon-blue); top: 10%; left: -10%;"></div>
-    <div class="orb" style="width: 300px; height: 300px; background: var(--neon-purple); bottom: 10%; right: -5%;"></div>
-    <div class="grid-floor"></div>
-
-    <nav>
-        <div class="logo">NEURAL.LNK</div>
-        <div style="display: flex; gap: 30px;">
-            <a href="#" style="color: white; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px;">ARSENAL</a>
-            <a href="#" style="color: white; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px;">INTEL</a>
-            <a href="#" style="color: white; text-decoration: none; font-size: 0.8rem; letter-spacing: 2px;">SYNC</a>
+    <section id="hero">
+        <div class="hero-image-container">
+            <img src="https://www.sourcesplash.com/i/random?q=gaming-setup-rgb&w=1200" alt="Hero Background" class="hero-image" id="heroImage">
         </div>
-    </nav>
+        <h1 class="hero-title gradient-text">Goku Playzz</h1>
+        <p class="hero-tagline">TRANSCEND THE SIMULATION WITH NEXT-GEN HARDWARE</p>
+    </section>
 
-    <div id="main-canvas">
-        <section class="hero">
-            <h1 class="glitch-text">UPGRADE<br>REALITY</h1>
+    <section id="products">
+        <h2 class="section-header gradient-text">Featured Arsenal</h2>
+        <div class="product-grid">
             
-            <div class="hero-3d-box" id="heroBox">
-                <div class="box-face front">⚡</div>
-                <div class="box-face back">💠</div>
-                <div class="box-face right">🔋</div>
-                <div class="box-face left">🛰️</div>
-                <div class="box-face top">💀</div>
-                <div class="box-face bottom">🛡️</div>
-            </div>
-
-            <p style="letter-spacing: 8px; color: var(--neon-blue); font-weight: 300;">LOW LATENCY CYBERNETICS</p>
-        </section>
-
-        <h2 class="section-title">THE ARSENAL</h2>
-
-        <section class="products">
-            <div class="card-wrapper">
-                <div class="product-card" id="card1">
-                    <div class="img-3d">🎧</div>
-                    <h3>VOX-9 PRO</h3>
-                    <p>Neural-sync audio with 0.01ms lag. Hear through walls, literally.</p>
-                    <button class="btn">ACQUIRE</button>
+            <div class="card-perspective">
+                <div class="product-card">
+                    <img src="https://www.sourcesplash.com/i/random?q=graphics-card&w=600" alt="GPU" class="product-image">
+                    <div>
+                        <h3>Titanium Vertex</h3>
+                        <p>Experience ultra-stable 8K rendering with AI-enhanced ray tracing and liquid-cooled architecture.</p>
+                        <button class="btn-details">View Details</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="card-wrapper">
-                <div class="product-card" id="card2">
-                    <div class="img-3d">🖱️</div>
-                    <h3>GHOST GLIDE</h3>
-                    <p>Frictionless magnetic levitation sensor. 50,000 DPI tracking.</p>
-                    <button class="btn">ACQUIRE</button>
+            <div class="card-perspective">
+                <div class="product-card">
+                    <img src="https://www.sourcesplash.com/i/random?q=mechanical-keyboard&w=600" alt="Keyboard" class="product-image">
+                    <div>
+                        <h3>Neon Strike Pro</h3>
+                        <p>Optical-magnetic switches with 0.1ms actuation and customizable per-key OLED feedback.</p>
+                        <button class="btn-details">View Details</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="card-wrapper">
-                <div class="product-card" id="card3">
-                    <div class="img-3d">⌨️</div>
-                    <h3>STRIKE 01</h3>
-                    <p>Photon-actuated switches. Faster than human thought.</p>
-                    <button class="btn">ACQUIRE</button>
+            <div class="card-perspective">
+                <div class="product-card">
+                    <img src="https://www.sourcesplash.com/i/random?q=gaming-monitor&w=600" alt="Monitor" class="product-image">
+                    <div>
+                        <h3>Void Curve 49"</h3>
+                        <p>A panoramic 240Hz QD-OLED display featuring a 1000R curvature for ultimate peripheral immersion.</p>
+                        <button class="btn-details">View Details</button>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <h2 class="section-title">SYSTEM SPECS</h2>
+        </div>
+    </section>
 
-        <section class="specs-grid">
-            <div class="spec-box" id="spec1">
-                <h4 style="color: var(--neon-purple); margin-bottom: 10px;">HAPTIC ENGINE</h4>
-                <p>Localized vibration motors providing 1:1 tactile feedback for every in-game action.</p>
+    <section id="specs">
+        <div class="specs-grid">
+            <div class="spec-col">
+                <h4>Chroma Sync</h4>
+                <p>Proprietary RGB integration that synchronizes your entire room with in-game atmospheric data.</p>
             </div>
-            <div class="spec-box" id="spec2">
-                <h4 style="color: var(--neon-purple); margin-bottom: 10px;">AI OVERCLOCK</h4>
-                <p>Proprietary chips that predict your next move and pre-render input frames.</p>
+            <div class="spec-col">
+                <h4>Quantum Link</h4>
+                <p>Sub-millisecond latency protocols ensuring your inputs are registered before the frame even renders.</p>
             </div>
-            <div class="spec-box" id="spec3">
-                <h4 style="color: var(--neon-purple); margin-bottom: 10px;">BIO-RECOGNITION</h4>
-                <p>Heart-rate and sweat sensors adjust device sensitivity based on your stress levels.</p>
+            <div class="spec-col">
+                <h4>Industrial Grade</h4>
+                <p>Built with aerospace-grade aluminum and titanium alloys for hardware that survives any session.</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <footer>
-            <div class="logo" style="margin-bottom: 20px;">NEURAL.LNK</div>
-            <p style="opacity: 0.5; max-width: 500px; margin: 0 auto;">ESTABLISHED 2099. ALL HARDWARE IS BIOLOGICALLY ENCRYPTED. NO REFUNDS IN THE METAVERSE.</p>
-            <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px;">
-                <span style="color: var(--neon-green)">● SYSTEM ONLINE</span>
-                <span style="color: var(--neon-blue)">● HK_SERVER_4</span>
-            </div>
-        </footer>
-    </div>
+    <footer>
+        <div class="footer-logo gradient-text">Goku Playzz</div>
+        <p class="footer-tagline">Powering the next generation of digital athletes.</p>
+        <p class="footer-established">Established // 2024</p>
+    </footer>
 
     <script>
-        const heroBox = document.getElementById('heroBox');
-        const cards = document.querySelectorAll('.product-card');
-        const specBoxes = document.querySelectorAll('.spec-box');
-        const floor = document.querySelector('.grid-floor');
+        // 1. Intersection Observer for Fade/Slide Animation
+        const observerOptions = {
+            threshold: 0.15
+        };
 
-        // Scroll Logic
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            
-            // Rotate Hero Box
-            heroBox.style.transform = `rotateX(${scrolled * 0.2}deg) rotateY(${scrolled * 0.5}deg)`;
-            
-            // Floor movement
-            floor.style.backgroundPosition = `0px ${scrolled * 0.8}px`;
-
-            // Perspective tilt on scroll for cards
-            cards.forEach((card, index) => {
-                const rect = card.getBoundingClientRect();
-                const viewportHeight = window.innerHeight;
-                
-                if (rect.top < viewportHeight && rect.bottom > 0) {
-                    const tilt = (rect.top - viewportHeight / 2) * 0.05;
-                    card.style.transform = `rotateX(${tilt}deg) rotateY(${index % 2 === 0 ? 5 : -5}deg)`;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
+        }, observerOptions);
 
-            // Reveal Specs
-            specBoxes.forEach(box => {
-                const rect = box.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    box.classList.add('reveal');
-                } else {
-                    box.classList.remove('reveal');
-                }
-            });
+        document.querySelectorAll('.product-card').forEach(card => {
+            observer.observe(card);
         });
 
-        // Mouse Interactivity for cards
+        // 2. Parallax Hero Effect
+        const heroImage = document.getElementById('heroImage');
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.pageYOffset;
+            heroImage.style.transform = `translateY(${scrollPos * 0.4}px)`;
+        });
+
+        // 3. 3D Card Tilt Effect
+        const cards = document.querySelectorAll('.product-card');
+
         cards.forEach(card => {
             card.addEventListener('mousemove', (e) => {
+                // If it's not visible yet (from observer), don't tilt
+                if (!card.classList.contains('visible')) return;
+
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+                const x = e.clientX - rect.left; // x position within element
+                const y = e.clientY - rect.top;  // y position within element
                 
-                const xPct = (x / rect.width - 0.5) * 30;
-                const yPct = (y / rect.height - 0.5) * -30;
-                
-                card.style.transform = `rotateY(${xPct}deg) rotateX(${yPct}deg) scale(1.05)`;
-                card.style.transition = 'none';
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = (centerY - y) / 10;
+                const rotateY = (x - centerX) / 10;
+
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                card.style.borderColor = 'rgba(255, 0, 255, 0.4)';
+                card.style.boxShadow = `0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(157, 0, 255, 0.2)`;
             });
 
             card.addEventListener('mouseleave', () => {
-                card.style.transform = `rotateY(0) rotateX(0) scale(1)`;
-                card.style.transition = 'transform 0.5s ease';
+                card.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
+                card.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                card.style.boxShadow = 'none';
             });
-        });
-
-        // Initial entry animation
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 1s ease';
-                document.body.style.opacity = '1';
-            }, 100);
         });
     </script>
 </body>
