@@ -3,371 +3,595 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goku Playzz | Elite Cyber Gear</title>
+    <title>Goku Playzz | Elite Gaming Accessories Pakistan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Orbitron:wght@500;900&display=swap');
-
         :root {
-            --bg-color: #020205;
-            --electric-blue: #00d4ff;
-            --magenta: #ff00ff;
-            --purple: #9d00ff;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --text-main: #ffffff;
-            --text-dim: #b0b0b0;
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --neon-blue: #00f2ff;
+            --neon-pink: #ff00ea;
+            --neon-orange: #ffaa00;
+            --text-main: #e0e0e0;
+            --text-dim: #a0a0a0;
+            --accent-gradient: linear-gradient(90deg, #00f2ff, #ff00ea);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: crosshair;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Rajdhani', sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
         }
 
-        h1, h2, h3, .logo {
+        h1, h2, h3 {
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        .gradient-text {
-            background: linear-gradient(90deg, var(--electric-blue), var(--magenta), var(--purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
         }
 
-        /* Hero Section */
-        #hero {
-            height: 100vh;
+        /* --- Header & Nav --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--neon-orange);
+            text-shadow: 0 0 10px var(--neon-orange);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 90vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 0 20px;
+            padding: 0 2rem;
+            background: radial-gradient(circle at center, #111 0%, #050505 100%);
             position: relative;
             overflow: hidden;
         }
 
-        .hero-title {
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 900;
-            margin-bottom: 10px;
-            z-index: 10;
-        }
-
-        .hero-tagline {
-            font-size: 1.2rem;
-            color: var(--electric-blue);
-            margin-bottom: 40px;
-            z-index: 10;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-        }
-
-        .hero-image-container {
+        .hero::before {
+            content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.4;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(rgba(0, 242, 255, 0.05) 0px, transparent 1px, transparent 100px),
+                        repeating-linear-gradient(90deg, rgba(0, 242, 255, 0.05) 0px, transparent 1px, transparent 100px);
+            transform: perspective(500px) rotateX(60deg);
+            bottom: -50%;
+            z-index: 0;
         }
 
-        .hero-image {
-            width: 100%;
-            height: 120%;
-            object-fit: cover;
-            filter: saturate(1.5) contrast(1.2);
-            will-change: transform;
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
-        /* Products Section */
-        #products {
-            padding: 100px 5%;
-            max-width: 1400px;
-            margin: 0 auto;
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.4));
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-            font-size: 2.5rem;
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-blue);
+        }
+
+        /* --- Shop Section --- */
+        .shop-section {
+            max-width: 1200px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .section-title .line {
+            flex-grow: 1;
+            height: 2px;
+            background: var(--accent-gradient);
+            opacity: 0.5;
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .card-perspective {
-            perspective: 1000px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
         .product-card {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease-out;
-            opacity: 0;
-            transform: translateY(50px);
-            backdrop-filter: blur(10px);
-            height: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            transition: 0.3s;
+            position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
 
-        .product-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+        .product-card:hover {
+            border-color: var(--neon-pink);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 0, 234, 0.1);
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--neon-pink);
+            color: #fff;
+            padding: 2px 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 4px;
         }
 
         .product-image {
             width: 100%;
-            aspect-ratio: 16/10;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            pointer-events: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            height: 200px;
+            background: #1a1a1a;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #444;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::after {
+            content: 'GOKU PLAYZZ';
+            position: absolute;
+            opacity: 0.1;
+            transform: rotate(-45deg);
+            font-weight: 900;
         }
 
         .product-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--electric-blue);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
         }
 
-        .product-card p {
+        .product-card .price {
+            font-size: 1.4rem;
+            color: var(--neon-blue);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .product-card .specs {
+            font-size: 0.85rem;
             color: var(--text-dim);
-            font-size: 0.95rem;
-            margin-bottom: 25px;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
         }
 
-        .btn-details {
-            display: inline-block;
-            padding: 12px 30px;
-            border: 2px solid var(--magenta);
-            color: white;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-weight: bold;
+        .buy-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
             font-family: 'Orbitron', sans-serif;
             font-size: 0.8rem;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            background: transparent;
-            cursor: pointer;
+            font-weight: 700;
+            transition: 0.3s;
         }
 
-        .btn-details:hover {
-            background: var(--magenta);
-            box-shadow: 0 0 20px var(--magenta);
+        .buy-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
         }
 
-        /* Specs Section */
-        #specs {
-            padding: 100px 5%;
-            background: linear-gradient(to bottom, transparent, rgba(157, 0, 255, 0.05), transparent);
+        /* --- Features Section --- */
+        .features {
+            background: #0a0a0a;
+            padding: 5rem 2rem;
+            margin-top: 5rem;
         }
 
-        .specs-grid {
+        .features-container {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            gap: 3rem;
         }
 
-        .spec-col {
+        .feat-item {
             text-align: center;
-            padding: 20px;
         }
 
-        .spec-col h4 {
-            color: var(--electric-blue);
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 15px;
+        .feat-item i {
+            font-size: 2.5rem;
+            color: var(--neon-orange);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feat-item h4 {
+            margin-bottom: 1rem;
             font-size: 1.2rem;
         }
 
-        .spec-col p {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-        }
-
-        /* Footer */
+        /* --- Footer --- */
         footer {
-            padding: 80px 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 4rem 2rem;
+            background: #050505;
         }
 
-        .footer-logo {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
         }
 
-        .footer-tagline {
+        .footer-col h4 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col p, .footer-col li {
             color: var(--text-dim);
             font-size: 0.9rem;
-            margin-bottom: 20px;
+            list-style: none;
+            margin-bottom: 0.8rem;
         }
 
-        .footer-established {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--magenta);
-            font-weight: bold;
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--text-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .social-icon:hover {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 4rem;
+            color: #444;
+            font-size: 0.8rem;
+        }
+
+        /* --- Animations --- */
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-blue); }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px var(--neon-blue); }
+        }
+
+        .glitch-text:hover {
+            animation: glow 0.5s ease-in-out infinite alternate;
         }
 
         @media (max-width: 768px) {
-            .hero-title { font-size: 3.5rem; }
-            .product-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
 
-    <section id="hero">
-        <div class="hero-image-container">
-            <img src="https://www.sourcesplash.com/i/random?q=gaming-setup-rgb&w=1200" alt="Hero Background" class="hero-image" id="heroImage">
+    <header>
+        <nav>
+            <a href="#" class="logo">GOKU <span>PLAYZZ</span></a>
+            <ul class="nav-links">
+                <li><a href="#shop">GRAPHICS CARDS</a></li>
+                <li><a href="#peripherals">PERIPHERALS</a></li>
+                <li><a href="#builds">PC BUILDS</a></li>
+                <li><a href="#support">SUPPORT</a></li>
+            </ul>
+            <div class="nav-icons">
+                <span id="cart-count" style="color: var(--neon-blue); font-weight: bold; font-family: 'Orbitron';">CART (0)</span>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p style="color: var(--neon-pink); font-weight: bold; letter-spacing: 5px;">EST. 2024 | PAKISTAN</p>
+            <h1>ASCEND TO GOD LEVEL</h1>
+            <p>Premium gaming hardware and high-performance accessories delivered across Pakistan. Don't just play, dominate.</p>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <a href="#shop" class="btn">VIEW INVENTORY</a>
+                <a href="#" class="btn" style="border-color: var(--neon-pink); color: var(--neon-pink);">CUSTOM BUILD</a>
+            </div>
         </div>
-        <h1 class="hero-title gradient-text">Goku Playzz</h1>
-        <p class="hero-tagline">TRANSCEND THE SIMULATION WITH NEXT-GEN HARDWARE</p>
     </section>
 
-    <section id="products">
-        <h2 class="section-header gradient-text">Featured Arsenal</h2>
+    <main id="shop" class="shop-section">
+        <div class="section-title">
+            <h2>Trending Gear</h2>
+            <div class="line"></div>
+        </div>
+
         <div class="product-grid">
-            
-            <div class="card-perspective">
-                <div class="product-card">
-                    <img src="https://www.sourcesplash.com/i/random?q=graphics-card&w=600" alt="GPU" class="product-image">
-                    <div>
-                        <h3>Titanium Vertex</h3>
-                        <p>Experience ultra-stable 8K rendering with AI-enhanced ray tracing and liquid-cooled architecture.</p>
-                        <button class="btn-details">View Details</button>
-                    </div>
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="badge">TOP TIER</div>
+                <div class="product-image">
+                    <img src="https://img.icons8.com/ios/100/ffffff/video-card.png" alt="GPU">
                 </div>
+                <h3>NVIDIA RTX 4080 Super</h3>
+                <p class="specs">16GB GDDR6X | Ray Tracing Gen 3 | 4K Ultra Performance</p>
+                <div class="price">Rs. 255,000</div>
+                <button class="buy-btn" onclick="addToCart()">ADD TO ARSENAL</button>
             </div>
 
-            <div class="card-perspective">
-                <div class="product-card">
-                    <img src="https://www.sourcesplash.com/i/random?q=mechanical-keyboard&w=600" alt="Keyboard" class="product-image">
-                    <div>
-                        <h3>Neon Strike Pro</h3>
-                        <p>Optical-magnetic switches with 0.1ms actuation and customizable per-key OLED feedback.</p>
-                        <button class="btn-details">View Details</button>
-                    </div>
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="badge" style="background: var(--neon-blue);">POPULAR</div>
+                <div class="product-image">
+                    <img src="https://img.icons8.com/ios/100/ffffff/video-card.png" alt="GPU">
                 </div>
+                <h3>NVIDIA RTX 4060 Ti</h3>
+                <p class="specs">8GB GDDR6 | DLSS 3.0 Support | Perfect for 1440p</p>
+                <div class="price">Rs. 105,000</div>
+                <button class="buy-btn" onclick="addToCart()">ADD TO ARSENAL</button>
             </div>
 
-            <div class="card-perspective">
-                <div class="product-card">
-                    <img src="https://www.sourcesplash.com/i/random?q=gaming-monitor&w=600" alt="Monitor" class="product-image">
-                    <div>
-                        <h3>Void Curve 49"</h3>
-                        <p>A panoramic 240Hz QD-OLED display featuring a 1000R curvature for ultimate peripheral immersion.</p>
-                        <button class="btn-details">View Details</button>
-                    </div>
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="badge" style="background: var(--neon-orange);">BEST VALUE</div>
+                <div class="product-image">
+                    <img src="https://img.icons8.com/ios/100/ffffff/video-card.png" alt="GPU">
                 </div>
+                <h3>Radeon RX 580 (Used)</h3>
+                <p class="specs">8GB VRAM | Budget King | Refurbished Unit</p>
+                <div class="price">Rs. 28,500</div>
+                <button class="buy-btn" onclick="addToCart()">ADD TO ARSENAL</button>
             </div>
 
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://img.icons8.com/ios/100/ffffff/keyboard.png" alt="Keyboard">
+                </div>
+                <h3>Redragon K552 RGB</h3>
+                <p class="specs">Mechanical Blue Switches | 87 Keys | Aluminum Base</p>
+                <div class="price">Rs. 8,500</div>
+                <button class="buy-btn" onclick="addToCart()">ADD TO ARSENAL</button>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://img.icons8.com/ios/100/ffffff/mouse.png" alt="Mouse">
+                </div>
+                <h3>Logitech G502 Hero</h3>
+                <p class="specs">25K DPI Sensor | 11 Programmable Buttons | Customizable Weights</p>
+                <div class="price">Rs. 12,900</div>
+                <button class="buy-btn" onclick="addToCart()">ADD TO ARSENAL</button>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://img.icons8.com/ios/100/ffffff/headphones.png" alt="Headset">
+                </div>
+                <h3>Razer BlackShark V2 X</h3>
+                <p class="specs">7.1 Surround Sound | HyperClear Cardioid Mic | Lightweight</p>
+                <div class="price">Rs. 14,500</div>
+                <button class="buy-btn" onclick="addToCart()">ADD TO ARSENAL</button>
+            </div>
         </div>
-    </section>
+    </main>
 
-    <section id="specs">
-        <div class="specs-grid">
-            <div class="spec-col">
-                <h4>Chroma Sync</h4>
-                <p>Proprietary RGB integration that synchronizes your entire room with in-game atmospheric data.</p>
+    <section class="features">
+        <div class="features-container">
+            <div class="feat-item">
+                <i>⚡</i>
+                <h4>Fast Delivery</h4>
+                <p>Shipment across all major cities in Pakistan within 24-48 hours.</p>
             </div>
-            <div class="spec-col">
-                <h4>Quantum Link</h4>
-                <p>Sub-millisecond latency protocols ensuring your inputs are registered before the frame even renders.</p>
+            <div class="feat-item">
+                <i>🛡️</i>
+                <h4>Local Warranty</h4>
+                <p>Standard 1-year replacement warranty on all official components.</p>
             </div>
-            <div class="spec-col">
-                <h4>Industrial Grade</h4>
-                <p>Built with aerospace-grade aluminum and titanium alloys for hardware that survives any session.</p>
+            <div class="feat-item">
+                <i>🎧</i>
+                <h4>Expert Support</h4>
+                <p>Gamers helping gamers. Get advice on your next upgrade from pros.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="footer-logo gradient-text">Goku Playzz</div>
-        <p class="footer-tagline">Powering the next generation of digital athletes.</p>
-        <p class="footer-established">Established // 2024</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo">GOKU <span>PLAYZZ</span></a>
+                <p style="margin-top: 1rem;">The #1 Destination for high-end gaming hardware in Pakistan. Power up your setup today.</p>
+            </div>
+            <div class="footer-col">
+                <h4>QUICK LINKS</h4>
+                <ul>
+                    <li>Track Order</li>
+                    <li>Shipping Policy</li>
+                    <li>Warranty Terms</li>
+                    <li>Contact Us</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>CONTACT</h4>
+                <p>Hafeez Centre, Gulberg III, Lahore, Pakistan</p>
+                <p>support@gokuplayzz.pk</p>
+                <p>+92 300 1234567</p>
+            </div>
+            <div class="footer-col">
+                <h4>FOLLOW US</h4>
+                <div class="social-links">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">ig</a>
+                    <a href="#" class="social-icon">yt</a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">© 2024 GOKU PLAYZZ GAMING. ALL RIGHTS RESERVED. DESIGNED FOR THE ELITE.</p>
     </footer>
 
     <script>
-        // 1. Intersection Observer for Fade/Slide Animation
-        const observerOptions = {
-            threshold: 0.15
-        };
+        let count = 0;
+        const cartText = document.getElementById('cart-count');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+        function addToCart() {
+            count++;
+            cartText.innerText = `CART (${count})`;
+            cartText.style.textShadow = "0 0 15px var(--neon-pink)";
+            cartText.style.color = "var(--neon-pink)";
+            
+            setTimeout(() => {
+                cartText.style.textShadow = "none";
+                cartText.style.color = "var(--neon-blue)";
+            }, 500);
 
-        document.querySelectorAll('.product-card').forEach(card => {
-            observer.observe(card);
-        });
+            // Small alert simulation
+            const notification = document.createElement('div');
+            notification.innerText = "ADDED TO INVENTORY";
+            notification.style.position = 'fixed';
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '10px 20px';
+            notification.style.background = 'var(--neon-blue)';
+            notification.style.color = '#000';
+            notification.style.fontWeight = 'bold';
+            notification.style.fontFamily = 'Orbitron';
+            notification.style.zIndex = '9999';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 2000);
+        }
 
-        // 2. Parallax Hero Effect
-        const heroImage = document.getElementById('heroImage');
+        // Parallax effect for hero
         window.addEventListener('scroll', () => {
-            const scrollPos = window.pageYOffset;
-            heroImage.style.transform = `translateY(${scrollPos * 0.4}px)`;
-        });
-
-        // 3. 3D Card Tilt Effect
-        const cards = document.querySelectorAll('.product-card');
-
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                // If it's not visible yet (from observer), don't tilt
-                if (!card.classList.contains('visible')) return;
-
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; // x position within element
-                const y = e.clientY - rect.top;  // y position within element
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = (centerY - y) / 10;
-                const rotateY = (x - centerX) / 10;
-
-                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-                card.style.borderColor = 'rgba(255, 0, 255, 0.4)';
-                card.style.boxShadow = `0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(157, 0, 255, 0.2)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `rotateX(0deg) rotateY(0deg) scale(1)`;
-                card.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                card.style.boxShadow = 'none';
-            });
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero::before');
+            if(hero) {
+                document.querySelector('.hero').style.backgroundPositionY = -(scrolled * 0.5) + 'px';
+            }
         });
     </script>
 </body>
