@@ -1,9 +1,6 @@
-This is a premium landing page for **"Margalla Brews & Co."**, a fictional high-end specialty roastery based in Islamabad (F-6/F-7 area). 
+This landing page for **Margalla Roastery & Brews** is designed for the modern Islamabad specialty coffee scene, incorporating premium local trends like V60 pour-overs and cold brew concentrates.
 
-The site features:
-1.  **Three.js Hero:** A floating, rotating 3D Wireframe Icosahedron representing the "molecular structure" of the perfect roast.
-2.  **GSAP ScrollTrigger:** Smooth parallax reveals, sliding product cards, and depth-shifting sections.
-3.  **Local Context:** Menu items based on Islamabad trends (Artisanal Croissants, AeroPress Specialty Roasts).
+It features **GSAP ScrollTrigger** for smooth section reveals and depth-shifting cards, and **Three.js** for a floating, interactive geometric accent in the hero section.
 
 ```html
 <!DOCTYPE html>
@@ -11,115 +8,170 @@ The site features:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Margalla Brews | Islamabad's Finest Specialty Coffee</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP & ScrollTrigger -->
+    <title>Margalla Roastery | Islamabad's Specialty Coffee</title>
+    
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --espresso: #1a0f0a;
+            --cream: #f5ebe0;
+            --gold: #c49b66;
+            --slate: #2d2d2d;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f0d0c;
-            color: #f4f1ee;
+            background-color: var(--espresso);
+            color: var(--cream);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
         }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; }
-        .hero-canvas {
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(to bottom, rgba(26,15,10,0.8), rgba(26,15,10,1)),
+                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+        }
+
+        #three-canvas {
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
+            right: 0;
+            width: 50%;
             height: 100%;
-            z-index: -1;
-            opacity: 0.6;
+            z-index: 1;
+            pointer-events: none;
         }
-        .glass-card {
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .gold-text { color: var(--gold); }
+
+        /* Menu Section */
+        .menu-card {
             background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(196, 155, 102, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            height: 100%;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .coffee-gradient {
-            background: linear-gradient(135deg, #c4a484 0%, #8b5a2b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        .menu-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-10px);
         }
+
+        /* Testimonials */
+        .testimonial-track {
+            display: flex;
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .testi-card {
+            min-width: 350px;
+            background: var(--slate);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .parallax-bg {
+            position: absolute;
+            width: 100%;
+            height: 120%;
+            top: -10%;
+            left: 0;
+            background: radial-gradient(circle, rgba(196, 155, 102, 0.1) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--espresso);
+            font-weight: 700;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-gold:hover {
+            background: #e0b47a;
+            transform: scale(1.05);
+        }
+
+        section { padding: 100px 0; position: relative; }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 px-8 py-6 flex justify-between items-center bg-transparent">
-        <div class="text-2xl font-bold tracking-tighter">MARGALLA <span class="text-[#c4a484]">BREWS</span></div>
-        <div class="hidden md:flex space-x-12 text-sm uppercase tracking-widest font-semibold">
-            <a href="#" class="hover:text-[#c4a484] transition">The Roastery</a>
-            <a href="#menu" class="hover:text-[#c4a484] transition">Menu</a>
-            <a href="#testimonials" class="hover:text-[#c4a484] transition">Journal</a>
-        </div>
-        <button class="bg-[#c4a484] text-black px-6 py-2 rounded-full font-bold hover:bg-white transition duration-300">ORDER NOW</button>
-    </nav>
-
     <!-- Hero Section -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div id="three-container" class="hero-canvas"></div>
-        
-        <div class="text-center z-10 px-4">
-            <h1 id="hero-title" class="text-6xl md:text-8xl mb-6 opacity-0 translate-y-10">
-                Crafting <span class="coffee-gradient">Soul</span> in <br> Islamabad.
-            </h1>
-            <p id="hero-sub" class="text-xl md:text-2xl text-gray-400 mb-8 opacity-0">
-                Specialty beans from Ethiopia & Brazil, roasted in the heart of the Margalla hills.
-            </p>
-            <div id="hero-btn" class="opacity-0">
-                <a href="#menu" class="border-2 border-[#c4a484] text-[#c4a484] px-10 py-4 rounded-full font-bold hover:bg-[#c4a484] hover:text-black transition duration-500">EXPLORE OUR ROASTS</a>
+    <section id="hero">
+        <div id="three-canvas"></div>
+        <div class="container hero-content">
+            <div class="row">
+                <div class="col-lg-7">
+                    <h4 class="text-uppercase tracking-widest gold-text mb-3" id="hero-sub">Roasted in the heart of Islamabad</h4>
+                    <h1 class="display-1 fw-bold mb-4" id="hero-title">Elevate Your <br><span class="italic">Coffee Ritual</span></h1>
+                    <p class="lead mb-5 opacity-75" id="hero-p">Experience the finest specialty beans sourced globally and roasted locally. From the foothills of Margalla to your morning cup.</p>
+                    <div id="hero-btns">
+                        <button class="btn btn-gold me-3">Order Fresh Beans</button>
+                        <button class="btn btn-outline-light rounded-pill px-4">Visit Our Cafe</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Menu/Products Section -->
-    <section id="menu" class="py-24 px-8 bg-[#161412]">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
-                <div>
-                    <h2 class="text-5xl mb-4">The Roaster's Selection</h2>
-                    <p class="text-gray-500">Sourced globally, locally perfected in Islamabad.</p>
-                </div>
-                <div class="text-[#c4a484] font-mono text-sm mt-4 md:mt-0">EST. 2024 / ISB</div>
+    <!-- Menu Section -->
+    <section id="menu">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-4">The Roastery Selection</h2>
+                <div class="gold-text">Featured Brews & Beans</div>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Product 1 -->
-                <div class="product-card glass-card p-8 rounded-2xl group transition-transform duration-500">
-                    <div class="h-64 mb-6 bg-[url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=400')] bg-cover bg-center rounded-xl grayscale group-hover:grayscale-0 transition-all duration-700"></div>
-                    <h3 class="text-2xl mb-2">Margalla Gold Arabica</h3>
-                    <p class="text-gray-400 text-sm mb-4">Single-origin Brazilian beans with notes of dark chocolate and roasted nuts.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xl font-bold">PKR 2,450</span>
-                        <button class="text-[#c4a484] hover:underline">Add to Cart +</button>
+            <div class="row g-4">
+                <div class="col-md-4 reveal-up">
+                    <div class="menu-card">
+                        <div class="h3 mb-3">V60 Pour Over</div>
+                        <p class="opacity-75">Precision brewed specialty coffee. Choose from our seasonal Ethiopian or Guatemalan single-origin beans.</p>
+                        <div class="gold-text fw-bold">Rs. 850</div>
                     </div>
                 </div>
-
-                <!-- Product 2 -->
-                <div class="product-card glass-card p-8 rounded-2xl group transition-transform duration-500">
-                    <div class="h-64 mb-6 bg-[url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=400')] bg-cover bg-center rounded-xl grayscale group-hover:grayscale-0 transition-all duration-700"></div>
-                    <h3 class="text-2xl mb-2">Honey-Glazed Croissant</h3>
-                    <p class="text-gray-400 text-sm mb-4">Artisanal sourdough pastry, a favorite in Islamabad’s F-6 boutiques.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xl font-bold">PKR 850</span>
-                        <button class="text-[#c4a484] hover:underline">Add to Cart +</button>
+                <div class="col-md-4 reveal-up">
+                    <div class="menu-card">
+                        <div class="h3 mb-3">Cold Brew Concentrate</div>
+                        <p class="opacity-75">12-hour slow steeped, high-caffeine smooth concentrate. Perfect for Islamabad's summer afternoons.</p>
+                        <div class="gold-text fw-bold">Rs. 1,800 (500ml)</div>
                     </div>
                 </div>
-
-                <!-- Product 3 -->
-                <div class="product-card glass-card p-8 rounded-2xl group transition-transform duration-500">
-                    <div class="h-64 mb-6 bg-[url('https://images.unsplash.com/photo-1544787210-22bb840630be?auto=format&fit=crop&q=80&w=400')] bg-cover bg-center rounded-xl grayscale group-hover:grayscale-0 transition-all duration-700"></div>
-                    <h3 class="text-2xl mb-2">AeroPress Special</h3>
-                    <p class="text-gray-400 text-sm mb-4">Our signature brew. Ethiopian floral notes with a clean, crisp finish.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xl font-bold">PKR 1,150</span>
-                        <button class="text-[#c4a484] hover:underline">Add to Cart +</button>
+                <div class="col-md-4 reveal-up">
+                    <div class="menu-card">
+                        <div class="h3 mb-3">Sunrise Blend</div>
+                        <p class="opacity-75">Our signature house roast. Medium body with notes of milk chocolate, hazelnut, and caramel.</p>
+                        <div class="gold-text fw-bold">Rs. 3,500 (250g)</div>
                     </div>
                 </div>
             </div>
@@ -127,126 +179,133 @@ The site features:
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" class="py-32 bg-[#0f0d0c] relative overflow-hidden">
-        <div class="max-w-4xl mx-auto text-center px-6">
-            <div class="testimonial-reveal">
-                <span class="text-[#c4a484] text-5xl italic font-serif">"</span>
-                <blockquote class="text-3xl md:text-4xl leading-relaxed mb-8">
-                    The only place in Islamabad where you actually get the 'Third Wave' coffee experience. The AeroPress roast is life-changing.
-                </blockquote>
-                <div class="font-bold tracking-widest text-sm uppercase">— Zainab A., Food Critic (E-7, Islamabad)</div>
+    <section id="testimonials" style="background: #120a07;">
+        <div class="parallax-bg" id="testi-parallax"></div>
+        <div class="container">
+            <h2 class="text-center mb-5 display-5">What Our Community Says</h2>
+            <div class="row">
+                <div class="col-md-4 testi-reveal">
+                    <div class="testi-card">
+                        <p class="fst-italic opacity-75">"The best V60 I've had in Pakistan. The atmosphere reminds me of specialty cafes in Melbourne. A true gem in F-7."</p>
+                        <div class="mt-4 gold-text fw-bold">— Omar K., Food Blogger</div>
+                    </div>
+                </div>
+                <div class="col-md-4 testi-reveal" style="margin-top: 40px;">
+                    <div class="testi-card">
+                        <p class="fst-italic opacity-75">"Finally, a roastery in Islamabad that understands light roasts. Their Ethiopian beans are vibrant and fruity."</p>
+                        <div class="mt-4 gold-text fw-bold">— Sara J., Architect</div>
+                    </div>
+                </div>
+                <div class="col-md-4 testi-reveal" style="margin-top: 80px;">
+                    <div class="testi-card">
+                        <p class="fst-italic opacity-75">"Exceptional service and the Sunrise Blend has become my daily driver for home espresso."</p>
+                        <div class="mt-4 gold-text fw-bold">— Zaid A., Tech Lead</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- Decorative text bg -->
-        <div class="absolute -bottom-10 -left-10 text-[10rem] font-bold text-white opacity-5 select-none pointer-events-none">ROAST</div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-12 border-t border-white/10 text-center text-gray-500 text-sm">
-        <p>&copy; 2024 Margalla Brews & Co. F-6 Super Market, Islamabad.</p>
+    <footer class="py-5 text-center border-top border-secondary">
+        <p class="opacity-50">&copy; 2024 Margalla Roastery & Brews. Sector F-7, Islamabad.</p>
     </footer>
 
+    <!-- GSAP & Three.js Scripts -->
     <script>
-        // --- THREE.JS BACKGROUND ---
-        function initThree() {
-            try {
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                document.getElementById('three-container').appendChild(renderer.domElement);
+        // --- GSAP ScrollTrigger Setup ---
+        gsap.registerPlugin(ScrollTrigger);
 
-                // Create a wireframe icosahedron
-                const geometry = new THREE.IcosahedronGeometry(2, 1);
-                const material = new THREE.MeshBasicMaterial({ 
-                    color: 0xc4a484, 
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0.4
-                });
-                const shape = new THREE.Mesh(geometry, material);
-                scene.add(shape);
+        // Hero Animations
+        const tl = gsap.timeline();
+        tl.from("#hero-sub", { opacity: 0, y: 30, duration: 1 })
+          .from("#hero-title", { opacity: 0, y: 50, duration: 1 }, "-=0.5")
+          .from("#hero-p", { opacity: 0, y: 20, duration: 0.8 }, "-=0.5")
+          .from("#hero-btns", { opacity: 0, scale: 0.9, duration: 0.8 }, "-=0.5");
 
-                camera.position.z = 5;
-
-                function animate() {
-                    requestAnimationFrame(animate);
-                    shape.rotation.x += 0.002;
-                    shape.rotation.y += 0.003;
-                    renderer.render(scene, camera);
-                }
-                animate();
-
-                window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                });
-            } catch (e) {
-                console.error("Three.js failed to load", e);
-            }
-        }
-
-        // --- GSAP ANIMATIONS ---
-        function initGSAP() {
-            gsap.registerPlugin(ScrollTrigger);
-
-            // Hero Entrance
-            const tl = gsap.timeline();
-            tl.to("#hero-title", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" })
-              .to("#hero-sub", { opacity: 1, duration: 0.8 }, "-=0.6")
-              .to("#hero-btn", { opacity: 1, duration: 0.8 }, "-=0.4");
-
-            // Scroll Parallax for Hero Text
-            gsap.to("#hero-title", {
+        // Reveal Menu Cards on Scroll
+        gsap.utils.toArray(".reveal-up").forEach((card, i) => {
+            gsap.from(card, {
                 scrollTrigger: {
-                    trigger: "body",
-                    start: "top top",
-                    end: "bottom top",
-                    scrub: true
-                },
-                y: 200,
-                opacity: 0
-            });
-
-            // Product Cards Reveal
-            gsap.from(".product-card", {
-                scrollTrigger: {
-                    trigger: "#menu",
-                    start: "top 70%",
+                    trigger: card,
+                    start: "top 85%",
                     toggleActions: "play none none reverse"
                 },
-                y: 100,
                 opacity: 0,
+                y: 60,
                 duration: 1,
-                stagger: 0.2,
-                ease: "power3.out"
+                delay: i * 0.2
             });
+        });
 
-            // Testimonial Reveal
-            gsap.from(".testimonial-reveal", {
+        // Testimonial Depth Shift Effect
+        gsap.utils.toArray(".testi-reveal").forEach((card, i) => {
+            gsap.from(card, {
                 scrollTrigger: {
-                    trigger: "#testimonials",
-                    start: "top 80%",
+                    trigger: card,
+                    start: "top 90%",
+                    scrub: 1
                 },
-                scale: 0.9,
+                z: -100,
+                rotationX: 10,
                 opacity: 0,
-                duration: 1.5,
-                ease: "expo.out"
+                duration: 1
             });
-        }
+        });
 
-        window.onload = () => {
-            initThree();
-            initGSAP();
-        };
+        // Parallax Effect for Background
+        gsap.to("#testi-parallax", {
+            scrollTrigger: {
+                trigger: "#testimonials",
+                scrub: true
+            },
+            y: 100
+        });
+
+        // --- Three.js 3D Accent ---
+        try {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            const container = document.getElementById('three-canvas');
+            renderer.setSize(container.offsetWidth, container.offsetHeight);
+            container.appendChild(renderer.domElement);
+
+            // Create a wireframe Torus (Geometry accent)
+            const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0xc49b66, 
+                wireframe: true, 
+                transparent: true, 
+                opacity: 0.3 
+            });
+            const torus = new THREE.Mesh(geometry, material);
+            scene.add(torus);
+
+            camera.position.z = 30;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                torus.rotation.x += 0.005;
+                torus.rotation.y += 0.005;
+                renderer.render(scene, camera);
+            }
+
+            // Update on resize
+            window.addEventListener('resize', () => {
+                const width = container.offsetWidth;
+                const height = container.offsetHeight;
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+            });
+
+            animate();
+        } catch (e) {
+            console.log("Three.js initialization failed, falling back to static CSS", e);
+        }
     </script>
+
 </body>
 </html>
 ```
-
-### Why this design works for the Islamabad market:
-*   **Specialty Focus:** Following the data, I’ve highlighted "AeroPress" and "Single-Origin" roasts which are currently trending among the capital’s younger, affluent demographic in areas like F-6 and E-7.
-*   **Minimalist Luxury:** The dark "Onyx and Coffee" color palette mirrors high-end boutiques found in Kohsar Market.
-*   **GSAP Parallax:** The smooth movement as you scroll down creates a premium feel, distinguishing the brand from standard "instant coffee" competitors.
-*   **Interactive 3D:** The Three.js element adds a layer of "Tech-Modernism," suggesting the roastery uses scientific precision in its brewing process.
