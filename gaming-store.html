@@ -1,177 +1,192 @@
-This landing page for **Margalla Roastery & Brews** is designed for the modern Islamabad specialty coffee scene, incorporating premium local trends like V60 pour-overs and cold brew concentrates.
-
-It features **GSAP ScrollTrigger** for smooth section reveals and depth-shifting cards, and **Three.js** for a floating, interactive geometric accent in the hero section.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Margalla Roastery | Islamabad's Specialty Coffee</title>
+    <title>Margalla Brew Lab | Islamabad's Premier Roastery</title>
     
-    <!-- External Libraries -->
+    <!-- CDNs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --espresso: #1a0f0a;
-            --cream: #f5ebe0;
-            --gold: #c49b66;
-            --slate: #2d2d2d;
+            --bg-dark: #0a0a0a;
+            --accent-gold: #d4af37;
+            --text-cream: #f4f1ea;
+            --muted: #888;
         }
 
         body {
-            background-color: var(--espresso);
-            color: var(--cream);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-cream);
+            font-family: 'Syne', sans-serif;
             overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
+        h1, h2, .display-font {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
         }
 
-        /* Hero Section */
-        #hero {
+        /* --- Hero Section --- */
+        #hero-container {
             height: 100vh;
             position: relative;
             display: flex;
             align-items: center;
+            justify-content: center;
             overflow: hidden;
-            background: linear-gradient(to bottom, rgba(26,15,10,0.8), rgba(26,15,10,1)),
-                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000');
-            background-size: cover;
-            background-position: center;
         }
 
-        #three-canvas {
+        #canvas-holder {
             position: absolute;
             top: 0;
-            right: 0;
-            width: 50%;
+            left: 0;
+            width: 100%;
             height: 100%;
             z-index: 1;
-            pointer-events: none;
+            opacity: 0.6;
         }
 
-        .hero-content {
+        .hero-text-content {
             position: relative;
             z-index: 2;
+            text-align: center;
         }
 
-        .gold-text { color: var(--gold); }
-
-        /* Menu Section */
-        .menu-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(196, 155, 102, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            height: 100%;
-            backdrop-filter: blur(10px);
+        .hero-title {
+            font-size: clamp(4rem, 10vw, 8rem);
+            line-height: 0.9;
+            margin-bottom: 2rem;
         }
 
-        .menu-card:hover {
-            border-color: var(--gold);
+        /* --- Menu Section --- */
+        .menu-section {
+            padding: 100px 0;
+            background: #0f0f0f;
+        }
+
+        .coffee-card {
+            background: #161616;
+            border: 1px solid #222;
+            border-radius: 2px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coffee-card:hover {
+            border-color: var(--accent-gold);
             transform: translateY(-10px);
         }
 
-        /* Testimonials */
-        .testimonial-track {
-            display: flex;
-            gap: 2rem;
-            padding: 4rem 0;
+        .price-tag {
+            font-family: 'Instrument Serif';
+            font-size: 1.5rem;
+            color: var(--accent-gold);
         }
 
-        .testi-card {
-            min-width: 350px;
-            background: var(--slate);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        /* --- Testimonials --- */
+        .testimonial-container {
+            padding: 150px 0;
+            perspective: 1000px;
         }
 
-        .parallax-bg {
-            position: absolute;
-            width: 100%;
-            height: 120%;
-            top: -10%;
-            left: 0;
-            background: radial-gradient(circle, rgba(196, 155, 102, 0.1) 0%, rgba(0,0,0,0) 70%);
-            z-index: 0;
+        .testi-item {
+            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+            padding: 40px;
+            border-left: 3px solid var(--accent-gold);
+            margin-bottom: 30px;
         }
 
-        .btn-gold {
-            background: var(--gold);
-            color: var(--espresso);
-            font-weight: 700;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            border: none;
+        .btn-custom {
+            padding: 15px 40px;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
             transition: 0.3s;
+            display: inline-block;
         }
 
-        .btn-gold:hover {
-            background: #e0b47a;
-            transform: scale(1.05);
+        .btn-custom:hover {
+            background: var(--accent-gold);
+            color: black;
         }
 
-        section { padding: 100px 0; position: relative; }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
     </style>
 </head>
 <body>
 
     <!-- Hero Section -->
-    <section id="hero">
-        <div id="three-canvas"></div>
-        <div class="container hero-content">
-            <div class="row">
-                <div class="col-lg-7">
-                    <h4 class="text-uppercase tracking-widest gold-text mb-3" id="hero-sub">Roasted in the heart of Islamabad</h4>
-                    <h1 class="display-1 fw-bold mb-4" id="hero-title">Elevate Your <br><span class="italic">Coffee Ritual</span></h1>
-                    <p class="lead mb-5 opacity-75" id="hero-p">Experience the finest specialty beans sourced globally and roasted locally. From the foothills of Margalla to your morning cup.</p>
-                    <div id="hero-btns">
-                        <button class="btn btn-gold me-3">Order Fresh Beans</button>
-                        <button class="btn btn-outline-light rounded-pill px-4">Visit Our Cafe</button>
-                    </div>
-                </div>
-            </div>
+    <section id="hero-container">
+        <div id="canvas-holder"></div>
+        <div class="container hero-text-content">
+            <h1 class="hero-title">Elevate Your<br>Espresso.</h1>
+            <p class="lead mb-4 text-uppercase tracking-widest opacity-75">Sourced Globally. Roasted in Islamabad.</p>
+            <a href="#menu" class="btn-custom">Explore the Roast</a>
+        </div>
+        <div class="scroll-indicator">
+            <small class="text-uppercase">Scroll</small>
         </div>
     </section>
 
     <!-- Menu Section -->
-    <section id="menu">
+    <section id="menu" class="menu-section">
         <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="display-4">The Roastery Selection</h2>
-                <div class="gold-text">Featured Brews & Beans</div>
+            <div class="row mb-5 align-items-end">
+                <div class="col-md-6">
+                    <h2 class="display-2 mb-0 reveal-left">The Lab Menu</h2>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="reveal-right">Micro-batches roasted weekly in Sector F-7.</p>
+                </div>
             </div>
+
             <div class="row g-4">
-                <div class="col-md-4 reveal-up">
-                    <div class="menu-card">
-                        <div class="h3 mb-3">V60 Pour Over</div>
-                        <p class="opacity-75">Precision brewed specialty coffee. Choose from our seasonal Ethiopian or Guatemalan single-origin beans.</p>
-                        <div class="gold-text fw-bold">Rs. 850</div>
+                <div class="col-md-4 card-reveal">
+                    <div class="coffee-card">
+                        <span class="text-muted small">01 / BEANS</span>
+                        <h3 class="my-3">Margalla Gold Blend</h3>
+                        <p class="text-muted">A vibrant blend of Ethiopian & Brazilian beans. Notes of dark chocolate and orange zest.</p>
+                        <div class="price-tag">Rs. 3,200</div>
                     </div>
                 </div>
-                <div class="col-md-4 reveal-up">
-                    <div class="menu-card">
-                        <div class="h3 mb-3">Cold Brew Concentrate</div>
-                        <p class="opacity-75">12-hour slow steeped, high-caffeine smooth concentrate. Perfect for Islamabad's summer afternoons.</p>
-                        <div class="gold-text fw-bold">Rs. 1,800 (500ml)</div>
+                <div class="col-md-4 card-reveal">
+                    <div class="coffee-card">
+                        <span class="text-muted small">02 / POUR OVER</span>
+                        <h3 class="my-3">V60 Single Origin</h3>
+                        <p class="text-muted">Precision-brewed Kenyan SL28. High acidity with a distinct blackcurrant finish.</p>
+                        <div class="price-tag">Rs. 950</div>
                     </div>
                 </div>
-                <div class="col-md-4 reveal-up">
-                    <div class="menu-card">
-                        <div class="h3 mb-3">Sunrise Blend</div>
-                        <p class="opacity-75">Our signature house roast. Medium body with notes of milk chocolate, hazelnut, and caramel.</p>
-                        <div class="gold-text fw-bold">Rs. 3,500 (250g)</div>
+                <div class="col-md-4 card-reveal">
+                    <div class="coffee-card">
+                        <span class="text-muted small">03 / SPECIALTY</span>
+                        <h3 class="my-3">Nitro Cold Brew</h3>
+                        <p class="text-muted">16-hour steeped concentrate infused with nitrogen for a creamy, stout-like texture.</p>
+                        <div class="price-tag">Rs. 1,100</div>
                     </div>
                 </div>
             </div>
@@ -179,133 +194,128 @@ It features **GSAP ScrollTrigger** for smooth section reveals and depth-shifting
     </section>
 
     <!-- Testimonials Section -->
-    <section id="testimonials" style="background: #120a07;">
-        <div class="parallax-bg" id="testi-parallax"></div>
+    <section class="testimonial-container">
         <div class="container">
-            <h2 class="text-center mb-5 display-5">What Our Community Says</h2>
-            <div class="row">
-                <div class="col-md-4 testi-reveal">
-                    <div class="testi-card">
-                        <p class="fst-italic opacity-75">"The best V60 I've had in Pakistan. The atmosphere reminds me of specialty cafes in Melbourne. A true gem in F-7."</p>
-                        <div class="mt-4 gold-text fw-bold">— Omar K., Food Blogger</div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="testi-item reveal-depth">
+                        <h4 class="display-font h1">"The most sophisticated roast in Islamabad. The V60 here is a masterclass in clarity."</h4>
+                        <footer class="mt-4">— Ahmed R., Certified Barista</footer>
                     </div>
-                </div>
-                <div class="col-md-4 testi-reveal" style="margin-top: 40px;">
-                    <div class="testi-card">
-                        <p class="fst-italic opacity-75">"Finally, a roastery in Islamabad that understands light roasts. Their Ethiopian beans are vibrant and fruity."</p>
-                        <div class="mt-4 gold-text fw-bold">— Sara J., Architect</div>
-                    </div>
-                </div>
-                <div class="col-md-4 testi-reveal" style="margin-top: 80px;">
-                    <div class="testi-card">
-                        <p class="fst-italic opacity-75">"Exceptional service and the Sunrise Blend has become my daily driver for home espresso."</p>
-                        <div class="mt-4 gold-text fw-bold">— Zaid A., Tech Lead</div>
+                    <div class="testi-item reveal-depth" style="margin-left: 40px;">
+                        <h4 class="display-font h1">"Finally, a roastery that respects the bean. Their light roasts are comparable to London's best."</h4>
+                        <footer class="mt-4">— Zainab K., Food Critic</footer>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="py-5 text-center border-top border-secondary">
-        <p class="opacity-50">&copy; 2024 Margalla Roastery & Brews. Sector F-7, Islamabad.</p>
+    <footer class="py-5 text-center bg-black border-top border-dark">
+        <p class="small text-muted">&copy; 2024 Margalla Brew Lab. Developed for the Coffee Aficionado.</p>
     </footer>
 
-    <!-- GSAP & Three.js Scripts -->
     <script>
-        // --- GSAP ScrollTrigger Setup ---
+        // --- 1. Three.js Background Component ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        const canvasHolder = document.getElementById('canvas-holder');
+        renderer.setSize(canvasHolder.clientWidth, canvasHolder.clientHeight);
+        canvasHolder.appendChild(renderer.domElement);
+
+        // Rotating Icosahedron (Geometric Bean Representation)
+        const geometry = new THREE.IcosahedronGeometry(2, 1);
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0xd4af37, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.4
+        });
+        const shape = new THREE.Mesh(geometry, material);
+        scene.add(shape);
+
+        camera.position.z = 5;
+
+        function animate3D() {
+            requestAnimationFrame(animate3D);
+            shape.rotation.x += 0.002;
+            shape.rotation.y += 0.002;
+            renderer.render(scene, camera);
+        }
+        animate3D();
+
+        // Responsive resize
+        window.addEventListener('resize', () => {
+            renderer.setSize(canvasHolder.clientWidth, canvasHolder.clientHeight);
+            camera.aspect = canvasHolder.clientWidth / canvasHolder.clientHeight;
+            camera.updateProjectionMatrix();
+        });
+
+        // --- 2. GSAP & ScrollTrigger Animations ---
         gsap.registerPlugin(ScrollTrigger);
 
-        // Hero Animations
-        const tl = gsap.timeline();
-        tl.from("#hero-sub", { opacity: 0, y: 30, duration: 1 })
-          .from("#hero-title", { opacity: 0, y: 50, duration: 1 }, "-=0.5")
-          .from("#hero-p", { opacity: 0, y: 20, duration: 0.8 }, "-=0.5")
-          .from("#hero-btns", { opacity: 0, scale: 0.9, duration: 0.8 }, "-=0.5");
-
-        // Reveal Menu Cards on Scroll
-        gsap.utils.toArray(".reveal-up").forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                },
-                opacity: 0,
-                y: 60,
-                duration: 1,
-                delay: i * 0.2
-            });
+        // Hero Reveal
+        gsap.from(".hero-title", {
+            opacity: 0,
+            y: 100,
+            duration: 1.5,
+            ease: "power4.out"
         });
 
-        // Testimonial Depth Shift Effect
-        gsap.utils.toArray(".testi-reveal").forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top 90%",
-                    scrub: 1
-                },
-                z: -100,
-                rotationX: 10,
-                opacity: 0,
-                duration: 1
-            });
-        });
-
-        // Parallax Effect for Background
-        gsap.to("#testi-parallax", {
+        // Menu Cards Reveal (Staggered)
+        gsap.from(".card-reveal", {
             scrollTrigger: {
-                trigger: "#testimonials",
+                trigger: "#menu",
+                start: "top 70%",
+            },
+            y: 80,
+            opacity: 0,
+            stagger: 0.2,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        // Header Text Sliders
+        gsap.from(".reveal-left", {
+            scrollTrigger: { trigger: ".reveal-left", start: "top 90%" },
+            x: -100, opacity: 0, duration: 1.2
+        });
+
+        gsap.from(".reveal-right", {
+            scrollTrigger: { trigger: ".reveal-right", start: "top 90%" },
+            x: 100, opacity: 0, duration: 1.2
+        });
+
+        // Depth-Shifting Testimonials (Parallax-like Scroll)
+        gsap.utils.toArray(".reveal-depth").forEach((el, i) => {
+            gsap.from(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5,
+                },
+                z: -500,
+                opacity: 0,
+                rotationX: -20,
+                y: 100 * (i + 1)
+            });
+        });
+
+        // Interaction: Move Three.js shape slightly on scroll
+        gsap.to(shape.position, {
+            scrollTrigger: {
+                trigger: "#hero-container",
+                start: "top top",
+                end: "bottom top",
                 scrub: true
             },
-            y: 100
+            y: 2,
+            z: -2
         });
 
-        // --- Three.js 3D Accent ---
-        try {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            
-            const container = document.getElementById('three-canvas');
-            renderer.setSize(container.offsetWidth, container.offsetHeight);
-            container.appendChild(renderer.domElement);
-
-            // Create a wireframe Torus (Geometry accent)
-            const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
-            const material = new THREE.MeshBasicMaterial({ 
-                color: 0xc49b66, 
-                wireframe: true, 
-                transparent: true, 
-                opacity: 0.3 
-            });
-            const torus = new THREE.Mesh(geometry, material);
-            scene.add(torus);
-
-            camera.position.z = 30;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                torus.rotation.x += 0.005;
-                torus.rotation.y += 0.005;
-                renderer.render(scene, camera);
-            }
-
-            // Update on resize
-            window.addEventListener('resize', () => {
-                const width = container.offsetWidth;
-                const height = container.offsetHeight;
-                renderer.setSize(width, height);
-                camera.aspect = width / height;
-                camera.updateProjectionMatrix();
-            });
-
-            animate();
-        } catch (e) {
-            console.log("Three.js initialization failed, falling back to static CSS", e);
-        }
     </script>
-
 </body>
 </html>
-```
